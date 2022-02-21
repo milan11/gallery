@@ -1,0 +1,21 @@
+﻿{
+  "title": "Trip to Denmark and Sweden",
+  "photos": [
+    {
+      "file": "IMG20220211192203.jpg",
+      "description": "Kronborg castle, Helsingør, Denmark."
+    },
+    {
+      "file": "IMG20220213184122.jpg",
+      "description": "Planetarium in Copenhagen at night."
+    },
+    {
+      "file": "IMG20220216090326.jpg",
+      "description": "Train at Triangeln station, Malmö, Sweden."
+    },
+    {
+      "file": "IMG20220217123020.jpg",
+      "description": "Nyhavn Canal, Copenhagen, Denmark"
+    }
+  ]
+}
