@@ -2,6 +2,7 @@ import { GlobalHotKeys } from "react-hotkeys";
 import { useNavigate, useParams } from "react-router-dom";
 import { Photo } from "./Data";
 import { exitFullscreen, requestFullscreen } from "./Fullscreen";
+import { SizedImage } from "./SizedImage";
 import { sleep } from "./Utils";
 
 type Props = {
@@ -49,27 +50,29 @@ export const GalleryFullscreen = (props: Props) => {
 
         <div className="galleryPhotoFs">
           {[
-            <img
+            <SizedImage
               key={photo.file}
-              className="galleryImageFs"
               src={
                 process.env.PUBLIC_URL +
                 "/data/default/l_" +
                 encodeURIComponent(photo.file)
               }
-              alt=""
-            ></img>,
+              width={photo.l_width}
+              height={photo.l_height}
+              className="galleryImageFs"
+            />,
             nextPhoto === null ? null : (
-              <img
+              <SizedImage
                 key={nextPhoto.file}
-                className="galleryImageFsNext"
                 src={
                   process.env.PUBLIC_URL +
                   "/data/default/l_" +
                   encodeURIComponent(nextPhoto.file)
                 }
-                alt=""
-              ></img>
+                width={photo.l_width}
+                height={photo.l_height}
+                className="galleryImageFsNext"
+              />
             ),
           ]}
         </div>

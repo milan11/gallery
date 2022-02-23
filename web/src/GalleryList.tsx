@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Photo } from "./Data";
 import { requestFullscreen } from "./Fullscreen";
+import { SizedImage } from "./SizedImage";
 import { sleep } from "./Utils";
 
 type Props = {
@@ -22,15 +23,17 @@ export const GalleryList = (props: Props) => {
         }}
         style={{ cursor: "pointer" }}
       >
-        <img
-          className="galleryImage"
+        <SizedImage
           src={
             process.env.PUBLIC_URL +
             "/data/default/s_" +
             encodeURIComponent(photo.file)
           }
-          alt=""
-        ></img>
+          width={photo.s_width}
+          height={photo.s_height}
+          className="galleryImage"
+        />
+
         <div className="galleryDescription">{photo.description}</div>
       </div>
     );

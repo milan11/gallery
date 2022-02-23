@@ -43,7 +43,14 @@ public static class Converter
             newImage_l.Save(Path.Combine(targetDir, "l_" + fileName), System.Drawing.Imaging.ImageFormat.Jpeg);
             newImage_s.Save(Path.Combine(targetDir, "s_" + fileName), System.Drawing.Imaging.ImageFormat.Jpeg);
 
-            data.Photos.Add(new Photo(fileName, ""));
+            data.Photos.Add(new Photo(
+                fileName,
+                "",
+                (uint)newImage_l.Width,
+                (uint)newImage_l.Height,
+                (uint)newImage_s.Width,
+                (uint)newImage_s.Height
+                ));
         }
 
         var options = new JsonSerializerOptions()

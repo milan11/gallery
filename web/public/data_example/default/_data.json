@@ -3,19 +3,35 @@
   "photos": [
     {
       "file": "IMG20220211192203.jpg",
-      "description": "Kronborg castle, Helsingør, Denmark."
+      "description": "Kronborg castle, Helsingør, Denmark.",
+      "l_width": 2000,
+      "l_height": 900,
+      "s_width": 500,
+      "s_height": 225
     },
     {
       "file": "IMG20220213184122.jpg",
-      "description": "Planetarium in Copenhagen at night."
+      "description": "Planetarium in Copenhagen at night.",
+      "l_width": 2000,
+      "l_height": 1125,
+      "s_width": 500,
+      "s_height": 281
     },
     {
       "file": "IMG20220216090326.jpg",
-      "description": "Train at Triangeln station, Malmö, Sweden."
+      "description": "Train at Triangeln station, Malmö, Sweden.",
+      "l_width": 2000,
+      "l_height": 1125,
+      "s_width": 500,
+      "s_height": 281
     },
     {
       "file": "IMG20220217123020.jpg",
-      "description": "Nyhavn Canal, Copenhagen, Denmark"
+      "description": "Nyhavn Canal, Copenhagen, Denmark",
+      "l_width": 2000,
+      "l_height": 1125,
+      "s_width": 500,
+      "s_height": 281
     }
   ]
 }

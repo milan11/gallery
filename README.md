@@ -11,7 +11,8 @@ Simple web photo gallery written in React. Features:
 - next image preloading
 - images importer/converter written in .NET
 - working permanent URLs pointing to single photos
-- no unnecessary UI elements, buttons, frames, paddings, colors
+- no unnecessary UI elements, buttons, frames, paddings, colors, popups
+- no page re-layouts when loading images
 - no animations
 - no server-side scripts (the React app compiles to a bunch of files suitable for static files hosting)
 - no database, no cookies, no dynamic content, no user management/registration
@@ -38,6 +39,7 @@ PUBLIC_URL=/gallery npm run build # build the app to be hosted at the specified 
 - look to `public/data/default`
 - copy the files so that each file will have 2 variants: `l_*` (large image, width of 2000 pixels is recommended), `s_*` (small image, width of 500 pixels is recommended)
 - edit `_data.json` to contain the file names (without the l\_ and s\_ prefixes), image descriptions and the gallery title
+- `_data.json` can optionally contain image dimensions (for both large and small images separately) - when specified, the page will try to avoid re-layouts while loading the images
 
 ### Option 2 - use converter
 
