@@ -1,11 +1,11 @@
 # Gallery
 
-Simple web photo gallery written in React. Features:
+A simple web photo gallery written in React. Features:
 
 - showing a scrollable list of photos
-- fullscreen photos viewing - switching to fullscreen mode in browsers supporting it
+- fullscreen photos viewing - switching to a fullscreen mode in browsers supporting it
 - photo description texts
-- works well on both mobile devices (fills up the entire display, supports landscape orientation) and desktop computer (really fullscreen image is shown, no more tiny images in small popups on large screens)
+- works well on both mobile devices (fills up the entire display, supports landscape orientation) and desktop computers (really fullscreen image is shown, no more tiny images in small popups on large screens)
 - navigation using keyboard is possible (arrows, enter, spacebar, Esc)
 - fast (no tons of JS loaded)
 - next image preloading
@@ -36,8 +36,8 @@ PUBLIC_URL=/gallery npm run build # build the app to be hosted at the specified 
 
 ### Option 1 - edit manually
 
-- look to `public/data/default`
-- copy the files so that each file will have 2 variants: `l_*` (large image, width of 2000 pixels is recommended), `s_*` (small image, width of 500 pixels is recommended)
+- look at `public/data/default`
+- copy the files so that each file will have 2 variants: `l_*` (the large image, width of 2000 pixels is recommended), `s_*` (the small image, width of 500 pixels is recommended)
 - edit `_data.json` to contain the file names (without the l\_ and s\_ prefixes), image descriptions and the gallery title
 - `_data.json` can optionally contain image dimensions (for both large and small images separately) - when specified, the page will try to avoid re-layouts while loading the images
 
@@ -51,7 +51,7 @@ cd ../converter
 dotnet run <image_source_directory> ../web/public/data/default
 ```
 
-- look to `public/data/default`
+- look at `public/data/default`
 - edit \_data.json - write image descriptions and the gallery title
 
 ## Notes
