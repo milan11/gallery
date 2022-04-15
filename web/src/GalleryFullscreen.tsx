@@ -16,6 +16,7 @@ const keyMap = {
 };
 
 export const GalleryFullscreen = (props: Props) => {
+  const { gallery } = useParams();
   const navigate = useNavigate();
 
   const { file } = useParams();
@@ -54,7 +55,9 @@ export const GalleryFullscreen = (props: Props) => {
               key={photo.file}
               src={
                 process.env.PUBLIC_URL +
-                "/data/default/l_" +
+                "/data/" +
+                encodeURIComponent(gallery!) +
+                "/l_" +
                 encodeURIComponent(photo.file)
               }
               width={photo.l_width}
@@ -66,7 +69,9 @@ export const GalleryFullscreen = (props: Props) => {
                 key={nextPhoto.file}
                 src={
                   process.env.PUBLIC_URL +
-                  "/data/default/l_" +
+                  "/data/" +
+                  encodeURIComponent(gallery!) +
+                  "/l_" +
                   encodeURIComponent(nextPhoto.file)
                 }
                 width={photo.l_width}
@@ -93,6 +98,8 @@ export const GalleryFullscreen = (props: Props) => {
     if (openedPhotoIndex > 0) {
       navigate({
         pathname:
+          "/gallery/" +
+          encodeURIComponent(gallery!) +
           "/photo/" +
           encodeURIComponent(props.photos[openedPhotoIndex - 1].file),
       });
@@ -108,6 +115,8 @@ export const GalleryFullscreen = (props: Props) => {
     if (openedPhotoIndex < props.photos.length - 1) {
       navigate({
         pathname:
+          "/gallery/" +
+          encodeURIComponent(gallery!) +
           "/photo/" +
           encodeURIComponent(props.photos[openedPhotoIndex + 1].file),
       });
@@ -119,7 +128,7 @@ export const GalleryFullscreen = (props: Props) => {
   const goExit = async () => {
     await exitFullscreen();
     await sleep(200);
-    navigate({ pathname: "/" });
+    navigate({ pathname: "/gallery/" + encodeURIComponent(gallery!) });
   };
 
   return renderPhotoFs(

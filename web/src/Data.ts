@@ -1,3 +1,10 @@
+export type GalleriesData = {
+  galleries: {
+    path: string;
+    label: string;
+  }[];
+};
+
 export type GalleryData = {
   title: string;
   photos: Photo[];
