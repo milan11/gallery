@@ -26,14 +26,12 @@ public static class Converter
 
         GalleryData data = new GalleryData("Gallery");
 
+        List<Photo> photos_landscape = new List<Photo>();
+        List<Photo> photos_portrait = new List<Photo>();
+
         foreach (var origFilePath in files)
         {
             using Image origImage = Image.FromFile(origFilePath);
-
-            if (origImage.Height > origImage.Width)
-            {
-                throw new Exception($"Portrait images are not allowed for this gallery: {origFilePath}");
-            }
 
             using Image newImage_l = ScaleImage(origImage, 2000, 2000);
             using Image newImage_s = ScaleImage(origImage, 500, 500);
@@ -43,15 +41,27 @@ public static class Converter
             newImage_l.Save(Path.Combine(targetDir, "l_" + fileName), System.Drawing.Imaging.ImageFormat.Jpeg);
             newImage_s.Save(Path.Combine(targetDir, "s_" + fileName), System.Drawing.Imaging.ImageFormat.Jpeg);
 
-            data.Photos.Add(new Photo(
+            var photo = new Photo(
                 fileName,
                 "",
                 (uint)newImage_l.Width,
                 (uint)newImage_l.Height,
                 (uint)newImage_s.Width,
                 (uint)newImage_s.Height
-                ));
+                );
+
+            if (origImage.Width >= origImage.Height)
+            {
+                photos_landscape.Add(photo);
+            }
+            else
+            {
+                photos_portrait.Add(photo);
+            }
         }
+
+        data.Photos.AddRange(photos_landscape);
+        data.Photos.AddRange(photos_portrait);
 
         var options = new JsonSerializerOptions()
         {
