@@ -48,10 +48,10 @@ img {
 .galleryPhoto {
   margin-top: 20px;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .galleryImage {
-  max-width: 100%;
   background-color: #000;
 }
 
@@ -82,8 +82,6 @@ img {
 }
 
 .galleryImageFs {
-  max-width: 100%;
-  max-height: 100%;
   display: block;
   margin: auto;
   background-color: #000;

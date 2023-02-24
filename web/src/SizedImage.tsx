@@ -11,6 +11,10 @@ export const SizedImage = (props: Props) => {
       <svg
         viewBox={`0 0 ${props.width} ${props.height}`}
         className={props.className}
+        style={{
+          maxWidth: `min(${props.width}px, 100%)`,
+          maxHeight: `min(${props.height}px, 100%)`,
+        }}
       >
         <image
           x={0}
