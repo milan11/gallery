@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Text;
 using System.Text.Json;
 
@@ -29,6 +30,11 @@ public static class Converter
         List<Photo> photos_landscape = new List<Photo>();
         List<Photo> photos_portrait = new List<Photo>();
 
+        ImageCodecInfo encoder = GetEncoderInfo(ImageFormat.Jpeg);
+
+        EncoderParameters encoderParams = new EncoderParameters(1);
+        encoderParams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 90L);
+
         foreach (var origFilePath in files)
         {
             using Image origImage = Image.FromFile(origFilePath);
@@ -38,8 +44,8 @@ public static class Converter
 
             string fileName = Path.GetFileName(origFilePath);
 
-            newImage_l.Save(Path.Combine(targetDir, "l_" + fileName), System.Drawing.Imaging.ImageFormat.Jpeg);
-            newImage_s.Save(Path.Combine(targetDir, "s_" + fileName), System.Drawing.Imaging.ImageFormat.Jpeg);
+            newImage_l.Save(Path.Combine(targetDir, "l_" + fileName), encoder, encoderParams);
+            newImage_s.Save(Path.Combine(targetDir, "s_" + fileName), encoder, encoderParams);
 
             var photo = new Photo(
                 fileName,
@@ -105,5 +111,10 @@ public static class Converter
         }
 
         return newImage;
+    }
+
+    private static ImageCodecInfo GetEncoderInfo(ImageFormat format)
+    {
+        return ImageCodecInfo.GetImageEncoders().Single(codec => codec.FormatID == format.Guid);
     }
 }
