@@ -1,3 +1,4 @@
+import Swipe from "react-easy-swipe";
 import { GlobalHotKeys } from "react-hotkeys";
 import { useNavigate, useParams } from "react-router-dom";
 import { Photo } from "./Data";
@@ -36,58 +37,65 @@ export const GalleryFullscreen = (props: Props) => {
     };
 
     return (
-      <div
-        className="galleryPhotoFsWrapper"
-        onClick={() => {
-          goNext();
-        }}
+      <Swipe
+        tolerance={40}
+        onSwipeRight={goPrevious}
+        onSwipeLeft={goNext}
+        onSwipeUp={goExit}
       >
-        <GlobalHotKeys
-          key={openedPhotoIndex}
-          keyMap={keyMap}
-          handlers={handlers}
-        />
-        <div className="galleryTopFs"></div>
+        <div
+          className="galleryPhotoFsWrapper"
+          onClick={() => {
+            goNext();
+          }}
+        >
+          <GlobalHotKeys
+            key={openedPhotoIndex}
+            keyMap={keyMap}
+            handlers={handlers}
+          />
+          <div className="galleryTopFs"></div>
 
-        <div className="galleryPhotoFs">
-          {[
-            <SizedImage
-              key={photo.file}
-              src={
-                process.env.PUBLIC_URL +
-                "/data/" +
-                encodeURIComponent(gallery!) +
-                "/l_" +
-                encodeURIComponent(photo.file)
-              }
-              width={photo.l_width}
-              height={photo.l_height}
-              className="galleryImageFs"
-            />,
-            nextPhoto === null ? null : (
+          <div className="galleryPhotoFs">
+            {[
               <SizedImage
-                key={nextPhoto.file}
+                key={photo.file}
                 src={
                   process.env.PUBLIC_URL +
                   "/data/" +
                   encodeURIComponent(gallery!) +
                   "/l_" +
-                  encodeURIComponent(nextPhoto.file)
+                  encodeURIComponent(photo.file)
                 }
                 width={photo.l_width}
                 height={photo.l_height}
-                className="galleryImageFsNext"
-              />
-            ),
-          ]}
-        </div>
+                className="galleryImageFs"
+              />,
+              nextPhoto === null ? null : (
+                <SizedImage
+                  key={nextPhoto.file}
+                  src={
+                    process.env.PUBLIC_URL +
+                    "/data/" +
+                    encodeURIComponent(gallery!) +
+                    "/l_" +
+                    encodeURIComponent(nextPhoto.file)
+                  }
+                  width={photo.l_width}
+                  height={photo.l_height}
+                  className="galleryImageFsNext"
+                />
+              ),
+            ]}
+          </div>
 
-        {photo.description ? (
-          <div className="galleryDescriptionFs">{photo.description}</div>
-        ) : (
-          <div className="galleryDescriptionFsNone">{photo.description}</div>
-        )}
-      </div>
+          {photo.description ? (
+            <div className="galleryDescriptionFs">{photo.description}</div>
+          ) : (
+            <div className="galleryDescriptionFsNone">{photo.description}</div>
+          )}
+        </div>
+      </Swipe>
     );
   };
 
