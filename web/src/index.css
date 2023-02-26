@@ -25,9 +25,9 @@ img {
   max-width: 500px;
 }
 
-.galleriesListLink,
-.galleriesListLink:visited,
-.galleriesListLink:active {
+.link,
+.link:visited,
+.link:active {
   color: inherit;
   text-decoration: none;
   color: #fff;
@@ -35,13 +35,13 @@ img {
   padding: 10px;
 }
 
-.galleriesListLink:hover {
+.link:hover {
   background-color: #fff;
   color: #000;
 }
 
 .galleryColumn {
-  margin: 0 auto;
+  margin: 10px auto;
   max-width: 500px;
 }
 

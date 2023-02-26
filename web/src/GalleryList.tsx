@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Photo } from "./Data";
+import { GalleryData, Photo } from "./Data";
 import { requestFullscreen } from "./Fullscreen";
 import { SizedImage } from "./SizedImage";
 import { sleep } from "./Utils";
 
 type Props = {
-  photos: Photo[];
+  galleryData: GalleryData;
 };
 
 export const GalleryList = (props: Props) => {
@@ -49,6 +49,11 @@ export const GalleryList = (props: Props) => {
   };
 
   return (
-    <div className="galleryColumn">{props.photos.map(renderListItem)}</div>
+    <div className="galleryColumn">
+      <a href={process.env.PUBLIC_URL + "/"} className="link">
+        ← {props.galleryData.title}
+      </a>
+      {props.galleryData.photos.map(renderListItem)}
+    </div>
   );
 };

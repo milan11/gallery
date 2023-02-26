@@ -40,7 +40,7 @@ export const Gallery = () => {
     <Routes>
       <Route
         path=""
-        element={<GalleryList photos={galleryData.photos} />}
+        element={<GalleryList galleryData={galleryData} />}
       ></Route>
       <Route
         path="photo/:file"

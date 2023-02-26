@@ -33,7 +33,7 @@ export const GalleriesList = () => {
           href={
             process.env.PUBLIC_URL + "/gallery/" + encodeURIComponent(g.path)
           }
-          className="galleriesListLink"
+          className="link"
         >
           {g.label}
         </a>
