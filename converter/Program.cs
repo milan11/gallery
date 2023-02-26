@@ -6,6 +6,7 @@ using System.Text.Json;
 
 public static class Converter
 {
+
     public static void Main(string[] args)
     {
         if (args.Length != 2)
@@ -38,6 +39,7 @@ public static class Converter
         foreach (var origFilePath in files)
         {
             using Image origImage = Image.FromFile(origFilePath);
+            Rotate(origImage);
 
             using Image newImage_l = ScaleImage(origImage, 2000, 2000);
             using Image newImage_s = ScaleImage(origImage, 500, 500);
@@ -111,6 +113,45 @@ public static class Converter
         }
 
         return newImage;
+    }
+
+    private const int ExifOrientationId = 0x112; // 274
+
+    // https://stackoverflow.com/a/48347653/7164302
+    private static void Rotate(Image img)
+    {
+        if (!img.PropertyIdList.Contains(ExifOrientationId))
+        {
+            return;
+        }
+
+        var prop = img.GetPropertyItem(ExifOrientationId);
+        var val = prop.Value.Where(b => b != 0).FirstOrDefault();
+
+        var rot = RotateFlipType.RotateNoneFlipNone;
+
+        if (val == 3 || val == 4)
+        {
+            rot = RotateFlipType.Rotate180FlipNone;
+        }
+        else if (val == 5 || val == 6)
+        {
+            rot = RotateFlipType.Rotate90FlipNone;
+        }
+        else if (val == 7 || val == 8)
+        {
+            rot = RotateFlipType.Rotate270FlipNone;
+        }
+
+        if (val == 2 || val == 4 || val == 5 || val == 7)
+        {
+            rot |= RotateFlipType.RotateNoneFlipX;
+        }
+
+        if (rot != RotateFlipType.RotateNoneFlipNone)
+        {
+            img.RotateFlip(rot);
+        }
     }
 
     private static ImageCodecInfo GetEncoderInfo(ImageFormat format)
