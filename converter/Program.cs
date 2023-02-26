@@ -24,10 +24,11 @@ public static class Converter
             Environment.Exit(3);
         }
 
-        var files = Directory.GetFiles(sourceDir).OrderBy(NormalizeFileNameForSorting);
+        var files = Directory.GetFiles(sourceDir);
 
         GalleryData data = new GalleryData("Gallery");
 
+        List<Photo> photos_almostSquare = new List<Photo>();
         List<Photo> photos_landscape = new List<Photo>();
         List<Photo> photos_portrait = new List<Photo>();
 
@@ -58,7 +59,11 @@ public static class Converter
                 (uint)newImage_s.Height
                 );
 
-            if (origImage.Width >= origImage.Height)
+            if (IsAlmostSquare(origImage.Width, origImage.Height))
+            {
+                photos_almostSquare.Add(photo);
+            }
+            else if (IsLandscape(origImage.Width, origImage.Height))
             {
                 photos_landscape.Add(photo);
             }
@@ -68,8 +73,17 @@ public static class Converter
             }
         }
 
-        data.Photos.AddRange(photos_landscape);
-        data.Photos.AddRange(photos_portrait);
+        if (photos_landscape.Count >= photos_portrait.Count)
+        {
+            photos_landscape.AddRange(photos_almostSquare);
+        }
+        else
+        {
+            photos_portrait.AddRange(photos_almostSquare);
+        }
+
+        data.Photos.AddRange(photos_landscape.OrderBy(p => NormalizeFileNameForSorting(p.File)));
+        data.Photos.AddRange(photos_portrait.OrderBy(p => NormalizeFileNameForSorting(p.File)));
 
         var options = new JsonSerializerOptions()
         {
@@ -78,6 +92,18 @@ public static class Converter
         };
 
         File.WriteAllText(Path.Combine(targetDir, "_data.json"), JsonSerializer.Serialize(data, options), Encoding.UTF8);
+    }
+
+    private static bool IsAlmostSquare(int width, int height)
+    {
+        double ratio = (width >= height) ? ((double)height / (double)width) : ((double)width / (double)height);
+
+        return ratio >= 0.85;
+    }
+
+    private static bool IsLandscape(int width, int height)
+    {
+        return width >= height;
     }
 
     private static string NormalizeFileNameForSorting(string fileName)
