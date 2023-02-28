@@ -3,6 +3,7 @@ type Props = {
   width: number;
   height: number;
   className: string;
+  onLoad?: (() => void) | undefined;
 };
 
 export const SizedImage = (props: Props) => {
@@ -14,6 +15,7 @@ export const SizedImage = (props: Props) => {
         maxWidth: `min(${props.width}px, 100%)`,
         maxHeight: `min(${props.height}px, 100%)`,
       }}
+      onLoad={props.onLoad}
     >
       <image
         x={0}

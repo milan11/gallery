@@ -87,7 +87,7 @@ img {
   background-color: #000;
 }
 
-.galleryImageFsNext {
+.galleryImageFsHidden {
   width: 0;
   height: 0;
   display: none;
