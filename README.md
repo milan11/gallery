@@ -6,9 +6,10 @@ A simple web photo gallery written in React. Features:
 - fullscreen photos viewing - switching to a fullscreen mode in browsers supporting it
 - photo description texts
 - works well on both mobile devices (fills up the entire display, supports landscape orientation) and desktop computers (really fullscreen image is shown, no more tiny images in small popups on large screens)
-- navigation using keyboard is possible (arrows, enter, spacebar, Esc)
+- navigation using keyboard (arrows, enter, spacebar, Esc (to exit))
+- navigation using swipe gestures (left, right, up (to exit))
 - fast (no tons of JS loaded)
-- next image preloading
+- next images preloading
 - images importer/converter written in .NET
 - working permanent URLs pointing to single photos
 - no unnecessary UI elements, buttons, frames, paddings, colors, popups
