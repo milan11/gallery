@@ -2,3 +2,5 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^gallery/(.*)$ index.html [QSA,L]
+
+Header set Cache-Control "no-cache"
