@@ -44,7 +44,7 @@ public static class Converter
         EncoderParameters encoderParams = new EncoderParameters(1);
         encoderParams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 90L);
 
-        foreach (var origFilePath in files)
+        Parallel.ForEach(files, origFilePath =>
         {
             using Image origImage = Image.FromFile(origFilePath);
             Rotate(origImage);
@@ -66,8 +66,11 @@ public static class Converter
                 (uint)newImage_s.Height
                 );
 
-            photos.Add(photo);
-        }
+            lock (photos)
+            {
+                photos.Add(photo);
+            }
+        });
 
         data.Photos.AddRange(photos.OrderBy(p => NormalizeFileNameForSorting(p.File)));
 
