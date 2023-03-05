@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Routes, Route, useParams } from "react-router-dom";
 import { GalleryFullscreen } from "./GalleryFullscreen";
 import { GalleryList } from "./GalleryList";
-import { GalleryData } from "./Data";
+import { dimensionsSortIndex, GalleryData } from "./Data";
 
 export const Gallery = () => {
   const { gallery } = useParams();
 
   const [galleryData, setGalleryData] = useState<GalleryData | null>(null);
+
+  const [sortByDimensions, setSortByDimensions] = useState(false);
 
   useEffect(() => {
     const fetchPhotos = async () => {
@@ -32,7 +34,21 @@ export const Gallery = () => {
     }
   });
 
-  if (galleryData === null) {
+  const galleryDataWithSortedPhotos = useMemo(() => {
+    if (galleryData === null) {
+      return null;
+    }
+    return {
+      ...galleryData,
+      photos: sortByDimensions
+        ? [...galleryData.photos].sort(
+            (a, b) => dimensionsSortIndex(a) - dimensionsSortIndex(b)
+          )
+        : galleryData.photos,
+    };
+  }, [galleryData, sortByDimensions]);
+
+  if (galleryDataWithSortedPhotos === null) {
     return null;
   }
 
@@ -40,11 +56,19 @@ export const Gallery = () => {
     <Routes>
       <Route
         path=""
-        element={<GalleryList galleryData={galleryData} />}
+        element={
+          <GalleryList
+            galleryData={galleryDataWithSortedPhotos}
+            sortByDimensions={sortByDimensions}
+            setSortByDimensions={setSortByDimensions}
+          />
+        }
       ></Route>
       <Route
         path="photo/:file"
-        element={<GalleryFullscreen photos={galleryData.photos} />}
+        element={
+          <GalleryFullscreen photos={galleryDataWithSortedPhotos.photos} />
+        }
       ></Route>
     </Routes>
   );

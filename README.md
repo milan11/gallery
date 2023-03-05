@@ -17,7 +17,7 @@ A simple web photo gallery written in React. Features:
 - no animations
 - no server-side scripts (the React app compiles to a bunch of files suitable for static files hosting)
 - no database, no cookies, no dynamic content, no user management/registration
-- portrait images are not mixed with landscape images (all landscape images are shown first, then all portrait images)
+- possibility to choose a sorting method where portrait images are not mixed with landscape images (all landscape images are shown first, then all portrait images)
 
 ## Usage
 

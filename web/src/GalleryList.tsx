@@ -1,11 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { GalleryData, Photo } from "./Data";
+import { GalleryData, isPortrait, Photo } from "./Data";
 import { requestFullscreen } from "./Fullscreen";
 import { SizedImage } from "./SizedImage";
 import { sleep } from "./Utils";
 
 type Props = {
   galleryData: GalleryData;
+  sortByDimensions: boolean;
+  setSortByDimensions: (sortByDimensions: boolean) => void;
 };
 
 export const GalleryList = (props: Props) => {
@@ -50,9 +52,26 @@ export const GalleryList = (props: Props) => {
 
   return (
     <div className="galleryColumn">
-      <a href={process.env.PUBLIC_URL + "/"} className="link">
-        ← {props.galleryData.title}
-      </a>
+      <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+        <a
+          href={process.env.PUBLIC_URL + "/"}
+          className="link"
+          style={{ flexGrow: "1" }}
+        >
+          ← {props.galleryData.title}
+        </a>
+        {props.galleryData.photos.some((p) => isPortrait(p)) &&
+          props.galleryData.photos.some((p) => !isPortrait(p)) && (
+            <button
+              style={{ border: "none" }}
+              onClick={() => props.setSortByDimensions(!props.sortByDimensions)}
+            >
+              {props.sortByDimensions
+                ? "sorting by dimensions"
+                : "sorting by date"}
+            </button>
+          )}
+      </div>
       {props.galleryData.photos.map(renderListItem)}
     </div>
   );
