@@ -6,17 +6,24 @@ using System.Text.Json;
 
 public static class Converter
 {
+    private const string DataJsonFileName = "_data.json";
 
     public static void Main(string[] args)
     {
-        if (args.Length != 2)
+        if (args.Length != 2 && args.Length != 3)
         {
-            Console.Error.WriteLine("Usage: converter <source_dir> <target_dir>");
+            Console.Error.WriteLine("Usage: converter <source_dir> <target_dir> <prev_target_dir>");
             Environment.Exit(2);
         }
 
         string sourceDir = args[0];
         string targetDir = args[1];
+
+        if (File.Exists(Path.Combine(sourceDir, DataJsonFileName)))
+        {
+            Console.Error.WriteLine("Source directory contains {0}: {1} (maybe a mistake)", DataJsonFileName, sourceDir);
+            Environment.Exit(3);
+        }
 
         if (Directory.GetFiles(targetDir).Any())
         {
@@ -24,9 +31,11 @@ public static class Converter
             Environment.Exit(3);
         }
 
+        PrevData prevData = args.Length == 3 ? GetPrevData(args[2]) : new PrevData("Gallery", new Dictionary<string, string>());
+
         var files = Directory.GetFiles(sourceDir);
 
-        GalleryData data = new GalleryData("Gallery");
+        GalleryData data = new GalleryData(prevData.Title);
 
         List<Photo> photos_almostSquare = new List<Photo>();
         List<Photo> photos_landscape = new List<Photo>();
@@ -52,7 +61,7 @@ public static class Converter
 
             var photo = new Photo(
                 fileName,
-                "",
+                prevData.Descriptions.GetValueOrDefault(fileName, ""),
                 (uint)newImage_l.Width,
                 (uint)newImage_l.Height,
                 (uint)newImage_s.Width,
@@ -88,10 +97,11 @@ public static class Converter
         var options = new JsonSerializerOptions()
         {
             WriteIndented = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
         };
 
-        File.WriteAllText(Path.Combine(targetDir, "_data.json"), JsonSerializer.Serialize(data, options), Encoding.UTF8);
+        File.WriteAllText(Path.Combine(targetDir, DataJsonFileName), JsonSerializer.Serialize(data, options), Encoding.UTF8);
     }
 
     private static bool IsAlmostSquare(int width, int height)
@@ -183,5 +193,23 @@ public static class Converter
     private static ImageCodecInfo GetEncoderInfo(ImageFormat format)
     {
         return ImageCodecInfo.GetImageEncoders().Single(codec => codec.FormatID == format.Guid);
+    }
+
+    private static PrevData GetPrevData(string prevTargetDir)
+    {
+        var options = new JsonSerializerOptions()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+
+        GalleryData prevGalleryData = JsonSerializer.Deserialize<GalleryData>(File.ReadAllText(Path.Combine(prevTargetDir, DataJsonFileName), Encoding.UTF8), options)!;
+
+        Dictionary<string, string> descriptions = new();
+        foreach (var photo in prevGalleryData.Photos)
+        {
+            descriptions.Add(photo.File, photo.Description);
+        }
+
+        return new PrevData(prevGalleryData.Title, descriptions);
     }
 }

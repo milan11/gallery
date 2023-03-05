@@ -7,7 +7,7 @@ class GalleryData
     }
 
     public string Title { get; private set; }
-    public List<Photo> Photos { get; private set; }
+    public List<Photo> Photos { get; set; }
 }
 
 class Photo
