@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { GalleriesData } from "./Data";
 
 export const GalleriesList = () => {
@@ -28,15 +29,13 @@ export const GalleriesList = () => {
   return (
     <div className="galleriesList">
       {galleriesData.galleries.map((g) => (
-        <a
+        <Link
           key={g.path}
-          href={
-            process.env.PUBLIC_URL + "/gallery/" + encodeURIComponent(g.path)
-          }
+          to={"gallery/" + encodeURIComponent(g.path)}
           className="link"
         >
           {g.label}
-        </a>
+        </Link>
       ))}
     </div>
   );

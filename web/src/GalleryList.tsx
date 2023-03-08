@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { GalleryData, isPortrait, Photo } from "./Data";
 import { requestFullscreen } from "./Fullscreen";
 import { SizedImage } from "./SizedImage";
@@ -53,14 +53,16 @@ export const GalleryList = (props: Props) => {
 
   return (
     <div className="galleryColumn">
-      <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-        <a
-          href={process.env.PUBLIC_URL + "/"}
-          className="link"
-          style={{ flexGrow: "1" }}
-        >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gap: "10px",
+        }}
+      >
+        <Link to={"/"} className="link" style={{ flexGrow: "1" }}>
           ← {props.galleryData.title}
-        </a>
+        </Link>
         {props.galleryData.photos.some((p) => isPortrait(p)) &&
           props.galleryData.photos.some((p) => !isPortrait(p)) && (
             <button
