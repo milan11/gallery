@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 type Props = {
   src: string;
   width: number;
@@ -7,23 +9,37 @@ type Props = {
 };
 
 export const SizedImage = (props: Props) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
-    <svg
-      viewBox={`0 0 ${props.width} ${props.height}`}
-      className={props.className}
-      style={{
-        maxWidth: `min(${props.width}px, 100%)`,
-        maxHeight: `min(${props.height}px, 100%)`,
-      }}
-      onLoad={props.onLoad}
-    >
-      <image
-        x={0}
-        y={0}
-        width={props.width}
-        height={props.height}
-        href={props.src}
-      ></image>
-    </svg>
+    <>
+      {!isLoaded && (
+        <svg
+          viewBox={`0 0 ${props.width} ${props.height}`}
+          className={props.className}
+          style={{
+            maxWidth: `min(${props.width}px, 100%)`,
+            maxHeight: `min(${props.height}px, 100%)`,
+          }}
+        ></svg>
+      )}
+      <img
+        className={props.className}
+        alt=""
+        src={props.src}
+        style={{
+          maxWidth: `min(${props.width}px, 100%)`,
+          maxHeight: `min(${props.height}px, 100%)`,
+          width: !isLoaded ? 0 : "auto",
+          height: !isLoaded ? 0 : "auto",
+        }}
+        onLoad={() => {
+          setIsLoaded(true);
+          if (props.onLoad !== undefined) {
+            props.onLoad();
+          }
+        }}
+      />
+    </>
   );
 };
