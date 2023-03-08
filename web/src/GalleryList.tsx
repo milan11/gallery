@@ -42,6 +42,7 @@ export const GalleryList = (props: Props) => {
           }
           width={photo.s_width}
           height={photo.s_height}
+          lazy={true}
           className="galleryImage"
         />
 

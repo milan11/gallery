@@ -4,6 +4,7 @@ type Props = {
   src: string;
   width: number;
   height: number;
+  lazy: boolean;
   className: string;
   onLoad?: (() => void) | undefined;
 };
@@ -24,6 +25,7 @@ export const SizedImage = (props: Props) => {
         ></svg>
       )}
       <img
+        loading={props.lazy ? "lazy" : undefined}
         className={props.className}
         alt=""
         src={props.src}

@@ -130,6 +130,7 @@ export const GalleryFullscreen = (props: Props) => {
         }
         width={photo.l_width}
         height={photo.l_height}
+        lazy={false}
         className={show ? "galleryImageFs" : "galleryImageFsHidden"}
         onLoad={() => {
           if (loadedPhotos.indexOf(index) === -1) {
